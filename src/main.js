@@ -1,6 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from "vue";
+import App from "./demo/App.vue";
+import CurrencyInput from "./components/CurrencyInput.vue";
+const app = createApp(App);
 
-import './assets/main.css'
+app.component("CurrencyInput", CurrencyInput);
 
-createApp(App).mount('#app')
+app.mount("#app");
