@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <CurrencyInput />
+  <input type="text" v-currency-input>
 </template>
 
 <style scoped>

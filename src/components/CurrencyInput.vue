@@ -1,3 +1,0 @@
-<template>
-    currency input
-</template>
