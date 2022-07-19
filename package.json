@@ -1,6 +1,6 @@
 {
   "name": "vue3-currency-input",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "files": [
     "dist"
   ],
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build-lib": "vite --config vite.config.lib.js build",
+    "build-lib": "vite --config vite.config.lib.ts build",
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
