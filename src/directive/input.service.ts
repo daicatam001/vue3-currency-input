@@ -1,20 +1,13 @@
-import type { CurrencyInputConfig } from "./models";
+import { REGEX } from "./models";
 
 export class InputService {
-
-  options: CurrencyInputConfig = {
-    align: "right",
-    allowNegative: true,
-    decimal: ".",
-    precision: 2,
-    prefix: "$ ",
-    suffix: "",
-    thousands: ",",
-    nullable: false,
-  };
-
-  initOptions(options: Partial<CurrencyInputConfig> = {}): void {
-    this.options = { ...this.options, ...options };
+  formatValue(newValue: string, thousands: string) {
+    const numberValue = newValue.replace(REGEX.NUMBERS_ONLY, "");
+    const formattedNumberValue = numberValue.replace(
+      REGEX.FORMATTED_NUMBERS,
+      thousands
+    );
+    return formattedNumberValue;
   }
 }
 

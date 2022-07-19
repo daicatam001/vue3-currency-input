@@ -1,11 +1,29 @@
-import type { InputState } from "./models";
-
+import inputService from "./input.service";
+import { CurrencyInputConfig, InputState } from "./models";
 export class InputHandler {
   inputEl: HTMLInputElement | null = null;
-  state: InputState = { selectionStart: 0, selectionEnd: 0, value: "" };
+  state: InputState = {
+    selectionStart: 0,
+    selectionEnd: 0,
+    value: "",
+  };
+  options: CurrencyInputConfig = {
+    align: "right",
+    allowNegative: true,
+    decimal: ".",
+    precision: 2,
+    prefix: "$ ",
+    suffix: "",
+    thousands: ",",
+    nullable: false,
+  };
 
-  bindInput(input: HTMLInputElement) {
+  constructor(
+    input: HTMLInputElement,
+    options: Partial<CurrencyInputConfig> = {}
+  ) {
     this.inputEl = input;
+    this.options = { ...this.options, ...options };
     this.bindEvents();
   }
 
@@ -19,17 +37,21 @@ export class InputHandler {
 
   private bindEvents() {
     this.assertInput();
-    // this.inputEl.addEventListener("keydown", this.handleKeyDown);
-    this.inputEl.addEventListener("focus", this.handleFocus.bind(this));
+    this.inputEl.addEventListener("keydown", this.handleKeyDown.bind(this));
+    // this.inputEl.addEventListener("focus", this.handleFocus.bind(this));
     this.inputEl.addEventListener("keypress", this.handleKeypress.bind(this));
-    this.inputEl.addEventListener("input", this.handleInput.bind(this));
+    // this.inputEl.addEventListener("input", this.handleInput.bind(this));
   }
 
   private handleFocus(event: FocusEvent) {}
 
   private handleKeyDown(event: KeyboardEvent) {
-    this.assertInput();
+    this.updateInputState();
     const keyCode = event.which || event.charCode || event.keyCode;
+    // Is backspace or delete
+    if (keyCode === 8 || keyCode === 46) {
+      this.removeChar(keyCode);
+    }
   }
 
   private handleKeypress(event: KeyboardEvent) {
@@ -39,31 +61,36 @@ export class InputHandler {
     this.addChar(keyCode);
   }
 
-  private handleInput(event: Event) {
-    this.assertInput();
-    // const keyCode = event.which || event.charCode || event.keyCode;
-    // console.log(this.inputEl.value);
-  }
-
   private addChar(keyCode: number) {
     this.assertInput();
     const keyChar = String.fromCharCode(keyCode);
-    this.setstate();
     if (!this.state.value) {
-      this.inputEl.value = keyChar;
-      this.setCursorAt(this.inputEl.value.length);
+      this.updateInputValue(keyChar, keyChar.length);
     } else {
+      // add new char to current selection
       const valueStart = this.state.value.substring(
         0,
         this.state.selectionStart
       );
       let valueEnd = this.state.value.substring(this.state.selectionEnd);
-      this.inputEl.value = valueStart + keyChar + valueEnd;
-      this.setCursorAt(this.state.selectionStart + 1);
+      let newValue = valueStart + keyChar + valueEnd;
+      this.updateInputValue(newValue, this.state.selectionStart + 1);
     }
   }
 
-  private setstate() {
+  private removeChar(charCode: number) {}
+
+  private updateInputValue(tempValue: string, selectionStart: number) {
+    this.assertInput();
+    const { thousands } = this.options;
+    const formattedValue = inputService.formatValue(tempValue, thousands);
+    this.inputEl.value = formattedValue;
+    selectionStart =
+      selectionStart - (tempValue.length - formattedValue.length);
+    this.setCursorAt(selectionStart);
+  }
+
+  private updateInputState() {
     this.assertInput();
     const { selectionStart, selectionEnd, value } = this.inputEl;
     this.state = {
@@ -71,7 +98,6 @@ export class InputHandler {
       selectionEnd: selectionEnd || 0,
       value,
     };
-    console.log(this.state);
   }
 
   private setCursorAt(position: number) {
@@ -81,4 +107,4 @@ export class InputHandler {
   }
 }
 
-export default new InputHandler();
+export default InputHandler;
