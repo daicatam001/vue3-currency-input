@@ -1,7 +1,9 @@
+import { VNode } from "vue";
 import inputService from "./input.service";
 import { CurrencyInputConfig, InputState } from "./models";
+import { REGEX } from "./models";
 export class InputHandler {
-  inputEl: HTMLInputElement | null = null;
+  inputEl: HTMLInputElement;
   state: InputState = {
     selectionStart: 0,
     selectionEnd: 0,
@@ -9,13 +11,10 @@ export class InputHandler {
   };
   options: CurrencyInputConfig = {
     align: "right",
-    allowNegative: true,
     decimal: ".",
     precision: 2,
-    prefix: "$ ",
-    suffix: "",
     thousands: ",",
-    nullable: false,
+    allowNull: true,
   };
 
   constructor(
@@ -23,8 +22,12 @@ export class InputHandler {
     options: Partial<CurrencyInputConfig> = {}
   ) {
     this.inputEl = input;
-    this.options = { ...this.options, ...options };
+    this.setOptions(options);
     this.bindEvents();
+  }
+
+  setOptions(options: Partial<CurrencyInputConfig> = {}) {
+    this.options = { ...this.options, ...options };
   }
 
   private assertInput(): asserts this is this & {
@@ -36,7 +39,6 @@ export class InputHandler {
   }
 
   private bindEvents() {
-    this.assertInput();
     this.inputEl.addEventListener("keydown", this.handleKeyDown.bind(this));
     this.inputEl.addEventListener("keypress", this.handleKeypress.bind(this));
     this.inputEl.addEventListener("paste", this.handlePaste.bind(this));
@@ -54,31 +56,37 @@ export class InputHandler {
   }
 
   private handleKeypress(event: KeyboardEvent) {
-    this.assertInput();
     const keyCode = event.which || event.charCode || event.keyCode;
     event.preventDefault();
     this.addChar(keyCode);
   }
 
   private handlePaste(event: ClipboardEvent) {
-    this.assertInput();
+    const paste = (event.clipboardData || window.clipboardData).getData("text");
+    if (paste.match(REGEX.ALLOWED_INPUT_CHARACTERS)) {
+      event.preventDefault();
+      return;
+    }
     this.updateInputState();
     let { selectionEnd, value } = this.state;
 
     // input get pasted value when timeout
     setTimeout(() => {
-      this.assertInput();
       const newValue = this.inputEl.value;
       const selectionStart = selectionEnd + (newValue.length - value.length);
       this.updateInputValue(newValue, selectionStart);
     });
   }
   private handleCut(event: ClipboardEvent) {
-    console.log(event);
+    this.updateInputState();
+    let { selectionStart } = this.state;
+    setTimeout(() => {
+      const newValue = this.inputEl.value;
+      this.updateInputValue(newValue, selectionStart);
+    });
   }
 
   private addChar(keyCode: number) {
-    this.assertInput();
     const { selectionStart, selectionEnd, value } = this.state;
     const keyChar = String.fromCharCode(keyCode);
     if (!value) {
@@ -119,18 +127,27 @@ export class InputHandler {
     this.updateInputValue(newValue, selectionStart);
   }
 
-  private updateInputValue(tempValue: string, selectionStart: number) {
-    this.assertInput();
+  private updateInputValue(currentValue: string, selectionStart: number) {
     const { thousands } = this.options;
-    const formattedValue = inputService.formatValue(tempValue, thousands);
+    const { formattedValue, numberValue } = this.formatValue(
+      currentValue,
+      thousands
+    );
     this.inputEl.value = formattedValue;
+    this;
     selectionStart =
-      selectionStart - (tempValue.length - formattedValue.length);
+      selectionStart - (currentValue.length - formattedValue.length);
     this.setCursorAt(selectionStart);
+    this.inputEl.dispatchEvent(
+      new CustomEvent("number-change", {
+        detail: {
+          number: numberValue,
+        },
+      })
+    );
   }
 
   private updateInputState() {
-    this.assertInput();
     const { selectionStart, selectionEnd, value } = this.inputEl;
     this.state = {
       selectionStart: selectionStart || 0,
@@ -140,9 +157,21 @@ export class InputHandler {
   }
 
   private setCursorAt(position: number) {
-    this.assertInput();
     this.inputEl.focus();
     this.inputEl.setSelectionRange(position, position);
+  }
+
+  formatValue(newValue: string, thousands: string) {
+    const { allowNull } = this.options;
+    if (newValue === "" && allowNull) {
+      return { formattedValue: "", numberValue: null };
+    }
+    const numberValue = newValue.replace(REGEX.NUMBERS_ONLY, "");
+    const formattedValue = numberValue.replace(
+      REGEX.FORMATTED_NUMBERS,
+      thousands
+    );
+    return { formattedValue, numberValue: +numberValue };
   }
 }
 
