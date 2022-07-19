@@ -50,6 +50,7 @@ export class InputHandler {
     const keyCode = event.which || event.charCode || event.keyCode;
     // Is backspace or delete
     if (keyCode === 8 || keyCode === 46) {
+      event.preventDefault();
       this.removeChar(keyCode);
     }
   }
@@ -63,22 +64,35 @@ export class InputHandler {
 
   private addChar(keyCode: number) {
     this.assertInput();
+    const { selectionStart, selectionEnd, value } = this.state;
     const keyChar = String.fromCharCode(keyCode);
-    if (!this.state.value) {
+    if (!value) {
       this.updateInputValue(keyChar, keyChar.length);
     } else {
       // add new char to current selection
-      const valueStart = this.state.value.substring(
-        0,
-        this.state.selectionStart
-      );
-      let valueEnd = this.state.value.substring(this.state.selectionEnd);
-      let newValue = valueStart + keyChar + valueEnd;
-      this.updateInputValue(newValue, this.state.selectionStart + 1);
+      const valueStart = value.substring(0, selectionStart);
+      let valueEnd = value.substring(selectionEnd);
+      const newValue = valueStart + keyChar + valueEnd;
+      this.updateInputValue(newValue, selectionStart + 1);
     }
   }
 
-  private removeChar(charCode: number) {}
+  private removeChar(charCode: number) {
+    let { selectionStart, selectionEnd, value } = this.state;
+    if (selectionStart === selectionEnd) {
+      // Is backspace
+      if (charCode === 8) {
+        selectionStart--;
+      }
+      // Is delete
+      else if (charCode === 46) {
+        selectionEnd++;
+      }
+      const newValue =
+        value.substring(0, selectionStart) + value.substring(selectionEnd);
+      this.updateInputValue(newValue, selectionStart);
+    }
+  }
 
   private updateInputValue(tempValue: string, selectionStart: number) {
     this.assertInput();
