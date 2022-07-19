@@ -82,16 +82,26 @@ export class InputHandler {
     if (selectionStart === selectionEnd) {
       // Is backspace
       if (charCode === 8) {
+        // if remove decimal char
+        if (!value.charAt(selectionStart - 1).match(/\d/)) {
+          selectionStart--;
+          selectionEnd--;
+        }
         selectionStart--;
       }
       // Is delete
       else if (charCode === 46) {
+        // if remove decimal char
+        if (!value.charAt(selectionStart).match(/\d/)) {
+          selectionStart++;
+          selectionEnd++;
+        }
         selectionEnd++;
       }
-      const newValue =
-        value.substring(0, selectionStart) + value.substring(selectionEnd);
-      this.updateInputValue(newValue, selectionStart);
     }
+    const newValue =
+      value.substring(0, selectionStart) + value.substring(selectionEnd);
+    this.updateInputValue(newValue, selectionStart);
   }
 
   private updateInputValue(tempValue: string, selectionStart: number) {
