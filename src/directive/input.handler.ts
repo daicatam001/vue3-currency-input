@@ -38,12 +38,10 @@ export class InputHandler {
   private bindEvents() {
     this.assertInput();
     this.inputEl.addEventListener("keydown", this.handleKeyDown.bind(this));
-    // this.inputEl.addEventListener("focus", this.handleFocus.bind(this));
     this.inputEl.addEventListener("keypress", this.handleKeypress.bind(this));
-    // this.inputEl.addEventListener("input", this.handleInput.bind(this));
+    this.inputEl.addEventListener("paste", this.handlePaste.bind(this));
+    this.inputEl.addEventListener("cut", this.handleCut.bind(this));
   }
-
-  private handleFocus(event: FocusEvent) {}
 
   private handleKeyDown(event: KeyboardEvent) {
     this.updateInputState();
@@ -60,6 +58,23 @@ export class InputHandler {
     const keyCode = event.which || event.charCode || event.keyCode;
     event.preventDefault();
     this.addChar(keyCode);
+  }
+
+  private handlePaste(event: ClipboardEvent) {
+    this.assertInput();
+    this.updateInputState();
+    let { selectionEnd, value } = this.state;
+
+    // input get pasted value when timeout
+    setTimeout(() => {
+      this.assertInput();
+      const newValue = this.inputEl.value;
+      const selectionStart = selectionEnd + (newValue.length - value.length);
+      this.updateInputValue(newValue, selectionStart);
+    });
+  }
+  private handleCut(event: ClipboardEvent) {
+    console.log(event);
   }
 
   private addChar(keyCode: number) {
