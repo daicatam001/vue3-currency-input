@@ -1,5 +1,5 @@
 import InputHandler from "@/directive/input.handler";
-import type { CurrencyInputConfig } from "@/directive/models";
+import type { CurrencyInputConfig } from "@/directive/types";
 import type { Ref } from "vue";
 
 const handlerMap = new WeakMap();
