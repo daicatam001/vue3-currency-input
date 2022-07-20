@@ -1,15 +1,13 @@
-import { VNode } from "vue";
-import inputService from "./input.service";
-import { CurrencyInputConfig, InputState } from "./models";
+import { CurrencyInputConfig, CurrencyInputElement, InputState } from "./models";
 import { REGEX } from "./models";
 export class InputHandler {
-  inputEl: HTMLInputElement;
-  state: InputState = {
+  private inputEl: CurrencyInputElement;
+  private state: InputState = {
     selectionStart: 0,
     selectionEnd: 0,
     value: "",
   };
-  options: CurrencyInputConfig = {
+  private options: CurrencyInputConfig = {
     align: "right",
     decimal: ".",
     precision: 2,
@@ -21,7 +19,7 @@ export class InputHandler {
     input: HTMLInputElement,
     options: Partial<CurrencyInputConfig> = {}
   ) {
-    this.inputEl = input;
+    this.inputEl = input as CurrencyInputElement;
     this.setOptions(options);
     this.bindEvents();
   }
@@ -30,12 +28,12 @@ export class InputHandler {
     this.options = { ...this.options, ...options };
   }
 
-  private assertInput(): asserts this is this & {
-    inputEl: HTMLInputElement;
-  } {
-    if (!this.inputEl) {
-      throw new Error("input element not found");
-    }
+  setNumberValue(value: number | null) {
+    this.updateInputValue(
+      typeof value === "number" ? value.toString() : "",
+      0,
+      false
+    );
   }
 
   private bindEvents() {
@@ -43,6 +41,7 @@ export class InputHandler {
     this.inputEl.addEventListener("keypress", this.handleKeypress.bind(this));
     this.inputEl.addEventListener("paste", this.handlePaste.bind(this));
     this.inputEl.addEventListener("cut", this.handleCut.bind(this));
+    this.inputEl.setNumberValue = this.setNumberValue.bind(this);
   }
 
   private handleKeyDown(event: KeyboardEvent) {
@@ -127,24 +126,30 @@ export class InputHandler {
     this.updateInputValue(newValue, selectionStart);
   }
 
-  private updateInputValue(currentValue: string, selectionStart: number) {
+  private updateInputValue(
+    currentValue: string,
+    selectionStart: number,
+    triggerEvent: boolean = true
+  ) {
     const { thousands } = this.options;
     const { formattedValue, numberValue } = this.formatValue(
       currentValue,
       thousands
     );
     this.inputEl.value = formattedValue;
-    this;
-    selectionStart =
-      selectionStart - (currentValue.length - formattedValue.length);
-    this.setCursorAt(selectionStart);
-    this.inputEl.dispatchEvent(
-      new CustomEvent("number-change", {
-        detail: {
-          number: numberValue,
-        },
-      })
-    );
+    if (triggerEvent) {
+      selectionStart =
+        selectionStart - (currentValue.length - formattedValue.length);
+      this.setCursorAt(selectionStart);
+      this.state.selectionStart = selectionStart;
+      this.inputEl.dispatchEvent(
+        new CustomEvent("number-change", {
+          detail: {
+            number: numberValue,
+          },
+        })
+      );
+    }
   }
 
   private updateInputState() {
@@ -161,7 +166,7 @@ export class InputHandler {
     this.inputEl.setSelectionRange(position, position);
   }
 
-  formatValue(newValue: string, thousands: string) {
+  private formatValue(newValue: string, thousands: string) {
     const { allowNull } = this.options;
     if (newValue === "" && allowNull) {
       return { formattedValue: "", numberValue: null };

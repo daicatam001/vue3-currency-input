@@ -13,9 +13,10 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build-lib": "vite --config vite.config.lib.ts build",
+    "build-lib": "vite --config vite.config.lib.ts build && vue-tsc --emitDeclarationOnly && cp -r src/types dist/types",
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
@@ -28,5 +29,24 @@
     "typescript": "^4.7.4",
     "vite": "^2.9.14",
     "vue-tsc": "^0.38.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daicatam001/vue3-currency-input.git"
+  },
+  "license": "MIT",
+  "homepage": "",
+  "keywords": [
+    "vue",
+    "vuejs",
+    "vue3",
+    "currency",
+    "money",
+    "number",
+    "format",
+    "input"
+  ],
+  "bugs": {
+    "url": "https://github.com/daicatam001/vue3-currency-input/issues"
   }
 }

@@ -10,6 +10,7 @@ export interface InputState {
   selectionStart: number;
   selectionEnd: number;
   value: string;
+  number?: number | null;
 }
 
 export const REGEX = {

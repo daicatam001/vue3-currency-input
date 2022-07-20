@@ -5,4 +5,16 @@ declare global {
     };
   }
 }
+
+declare namespace CurrencyInput {
+  export type CurrencyInputElement = HTMLInputElement & {
+    setNumberValue: (value: number | null) => void;
+  };
+  export type CurrencyInputChangeEvent = CustomEvent & {
+    detail: {
+      number: number;
+    };
+  };
+}
+
 export {};
