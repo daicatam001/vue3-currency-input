@@ -7,7 +7,8 @@ A simple Vue 3 directive that helps show number of input in currency format
 Currently directive only works with integer number. Supporting float number is comming soon.
 ## Demo
 
-  - [Example page](https://vue3-typeahdead-input.vercel.app/)
+Comming soon.
+  <!-- - [Example page](https://vue3-typeahdead-input.vercel.app/) -->
 
 
 ## Installation
