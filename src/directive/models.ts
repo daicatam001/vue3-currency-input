@@ -18,13 +18,3 @@ export const REGEX = {
   ALLOWED_INPUT_CHARACTERS: /[^0-9\,]/g,
   FORMATTED_NUMBERS: /\B(?=([0-9]{3})+(?![0-9]))/g,
 };
-
-export type InputNumberElement = HTMLInputElement & {
-  setNumberValue: (value: number | null) => void;
-};
-
-export type NumberChangeEvent = CustomEvent & {
-  detail: {
-    number: number;
-  };
-};

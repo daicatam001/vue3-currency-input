@@ -1,17 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 const inputValue = ref(1234)
-const onNumberChange = (event) => {
+const onNumberChange = (event: CurrencyInputChangeEvent) => {
   const { number } = event.detail
   inputValue.value = number
 }
-const inputNumber = ref(null)
+const inputNumber = ref<CurrencyInputElement | null>(null)
 const renNumber = () => {
   inputValue.value = Math.floor(Math.random() * 2000) + 1
 }
 
 onMounted(() => {
-  inputNumber.value.setNumberValue(inputValue.value)
+  inputNumber.value!.setNumberValue(inputValue.value)
 })
 </script>
 <template>

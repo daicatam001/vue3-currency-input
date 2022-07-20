@@ -1,13 +1,13 @@
-import { CurrencyInputConfig, InputNumberElement, InputState } from "./models";
+import { CurrencyInputConfig, CurrencyInputElement, InputState } from "./models";
 import { REGEX } from "./models";
 export class InputHandler {
-  inputEl: InputNumberElement;
-  state: InputState = {
+  private inputEl: CurrencyInputElement;
+  private state: InputState = {
     selectionStart: 0,
     selectionEnd: 0,
     value: "",
   };
-  options: CurrencyInputConfig = {
+  private options: CurrencyInputConfig = {
     align: "right",
     decimal: ".",
     precision: 2,
@@ -19,7 +19,7 @@ export class InputHandler {
     input: HTMLInputElement,
     options: Partial<CurrencyInputConfig> = {}
   ) {
-    this.inputEl = input as InputNumberElement;
+    this.inputEl = input as CurrencyInputElement;
     this.setOptions(options);
     this.bindEvents();
   }
@@ -166,7 +166,7 @@ export class InputHandler {
     this.inputEl.setSelectionRange(position, position);
   }
 
-  formatValue(newValue: string, thousands: string) {
+  private formatValue(newValue: string, thousands: string) {
     const { allowNull } = this.options;
     if (newValue === "" && allowNull) {
       return { formattedValue: "", numberValue: null };
