@@ -1,13 +1,10 @@
 import InputHandler from "./input.handler";
-import type { CurrencyInputConfig } from "./models";
-import type { Ref } from "vue";
+import type { CurrencyInputConfig } from "./types";
+import { Ref } from "vue";
 
 const handlerMap = new WeakMap();
 
-const onCreated = (
-  el: HTMLInputElement,
-  binding: Ref<CurrencyInputConfig>,
-) => {
+const onCreated = (el: HTMLInputElement, binding: Ref<CurrencyInputConfig>) => {
   const inputHandler = new InputHandler(el, binding.value);
   handlerMap.set(el, inputHandler);
 };
@@ -22,8 +19,13 @@ const onUpdated = (el: HTMLInputElement, binding: Ref<CurrencyInputConfig>) => {
   inputHandler.setOptions(binding.value);
 };
 
+const onUnmounted = (el: HTMLInputElement) => {
+  handlerMap.delete(el);
+};
+
 export default {
   created: onCreated,
   mounted: onMount,
   updated: onUpdated,
+  unmouned: onUnmounted,
 };

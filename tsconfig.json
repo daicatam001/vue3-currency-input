@@ -1,6 +1,9 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts","src/types/*"],
+  "include": [
+    "env.d.ts",
+    "src/directive/types/*",
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
@@ -8,10 +11,11 @@
     "preserveValueImports": false,
     "importsNotUsedAsValues": "preserve",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-
   "references": [
     {
       "path": "./tsconfig.config.json"

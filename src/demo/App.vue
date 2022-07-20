@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { CurrencyInputChangeEvent, CurrencyInputElement } from '../directive/types';
 const inputValue = ref(1234)
 const onNumberChange = (event: CurrencyInputChangeEvent) => {
   const { number } = event.detail
@@ -19,9 +20,7 @@ onMounted(() => {
     @number-change="onNumberChange">
   <br> -->
   <br>
-  <input v-currency-input
-    ref="inputNumber"
-    @number-change="onNumberChange">
+  <input v-currency-input ref="inputNumber" @number-change="onNumberChange">
   <button @click="renNumber">click</button>
 </template>
 

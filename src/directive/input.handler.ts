@@ -1,5 +1,17 @@
-import { CurrencyInputConfig, CurrencyInputElement, InputState } from "./models";
-import { REGEX } from "./models";
+import { CurrencyInputConfig, CurrencyInputElement, InputState } from "./types";
+const REGEX = {
+  NUMBERS_ONLY: /[^0-9]/g,
+  ALLOWED_INPUT_CHARACTERS: /[^0-9\,]/g,
+  FORMATTED_NUMBERS: /\B(?=([0-9]{3})+(?![0-9]))/g,
+};
+
+interface InputState {
+  selectionStart: number;
+  selectionEnd: number;
+  value: string;
+  number?: number | null;
+}
+
 export class InputHandler {
   private inputEl: CurrencyInputElement;
   private state: InputState = {
