@@ -1,3 +1,3 @@
-import CurrencyInput from "./directive/currency-input";
+import NumericInput from "./directive/numeric-input";
 
-export default CurrencyInput;
+export default NumericInput;

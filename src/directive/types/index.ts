@@ -12,17 +12,17 @@ export interface InputState {
   value: string;
   number?: number | null;
 }
-export interface CurrencyInputConfig {
+export interface NumericInputConfig {
   align: "right" | "left";
   decimal: string;
   precision: number;
   thousands: string;
   allowNull: boolean;
 }
-export declare type CurrencyInputElement = HTMLInputElement & {
+export declare type NumericInputElement = HTMLInputElement & {
   setNumberValue: (value: number | null) => void;
 };
-export declare type CurrencyInputChangeEvent = CustomEvent & {
+export declare type NumericInputChangeEvent = CustomEvent & {
   detail: {
     number: number;
   };

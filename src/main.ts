@@ -1,7 +1,7 @@
-import currencyInput from "@/directive/currency-input";
+import currencyInput from "@/directive/numeric-input";
 import { createApp } from "vue";
 import App from "@/demo/App.vue";
 
 const app = createApp(App);
-app.directive("currency-input", currencyInput);
+app.directive("numeric-input", currencyInput);
 app.mount("#app");

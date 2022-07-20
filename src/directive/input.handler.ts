@@ -1,4 +1,4 @@
-import { CurrencyInputConfig, CurrencyInputElement, InputState } from "./types";
+import { NumericInputConfig, NumericInputElement, InputState } from "./types";
 const REGEX = {
   NUMBERS_ONLY: /[^0-9]/g,
   ALLOWED_INPUT_CHARACTERS: /[^0-9\,]/g,
@@ -13,13 +13,13 @@ interface InputState {
 }
 
 export class InputHandler {
-  private inputEl: CurrencyInputElement;
+  private inputEl: NumericInputElement;
   private state: InputState = {
     selectionStart: 0,
     selectionEnd: 0,
     value: "",
   };
-  private options: CurrencyInputConfig = {
+  private options: NumericInputConfig = {
     align: "right",
     decimal: ".",
     precision: 2,
@@ -29,14 +29,14 @@ export class InputHandler {
 
   constructor(
     input: HTMLInputElement,
-    options: Partial<CurrencyInputConfig> = {}
+    options: Partial<NumericInputConfig> = {}
   ) {
-    this.inputEl = input as CurrencyInputElement;
+    this.inputEl = input as NumericInputElement;
     this.setOptions(options);
     this.bindEvents();
   }
 
-  setOptions(options: Partial<CurrencyInputConfig> = {}) {
+  setOptions(options: Partial<NumericInputConfig> = {}) {
     this.options = { ...this.options, ...options };
   }
 

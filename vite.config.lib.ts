@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "vue3-currency-input",
-      fileName: (format) => `vue3-currency-input.${format}.js`,
+      name: "vue3-numeric-input",
+      fileName: (format) => `vue3-numeric-input.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

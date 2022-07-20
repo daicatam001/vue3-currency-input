@@ -1,7 +1,7 @@
 
-# vue3-currency-input
+# vue3-numeric-input
 
-A simple Vue 3 directive that helps show number of input in currency format
+A simple Vue 3 directive that helps show number of input in numeric format
 
 ### Note
 Currently directive only works with integer number. Supporting float number is comming soon.
@@ -15,35 +15,35 @@ Comming soon.
 
 Using npm
 ```
-npm install vue3-currency-input
+npm install vue3-numeric-input
 ```
 
 Using yarn
 ```
-yarn add vue3-currency-input
+yarn add vue3-numeric-input
 ```
 
 ## Usage
-Import vue3-currency-input directive globally.
+Import vue3-numeric-input directive globally.
 
 ```ts
 import App from './App.vue';
-import CurrencyInput from 'vue3-currency-input';
+import NumericInput from 'vue3-numeric-input';
 
 let app = createApp(App)
-app.directive('currency-input', CurrencyInput)
+app.directive('numeric-input', NumericInput)
 app.mount('#app')
 ```
 
 ...Or import vue3-typeahead-input component locally in component you want. 
 
 ```ts
-import CurrencyInput from 'vue3-currency-input';
+import NumericInput from 'vue3-numeric-input';
 
 export default {
     name: 'YourComponentName',
     directives: {
-        'currency-input': CurrencyInput
+        'numeric-input': NumericInput
     }
 }
 ```
@@ -52,7 +52,7 @@ Use component in template
 <template>
     <div>
         <input type="text"
-            v-currency-input
+            v-numeric-input
             @number-change="onNumberChange">
     </div>
 </template>

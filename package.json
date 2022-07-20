@@ -1,15 +1,15 @@
 {
-  "name": "vue3-currency-input",
+  "name": "vue3-numeric-input",
   "version": "1.0.0-beta.0",
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-currency-input.umd.js",
-  "module": "./dist/vue3-currency-input.es.js",
+  "main": "./dist/vue3-numeric-input.umd.js",
+  "module": "./dist/vue3-numeric-input.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vue3-currency-input.es.js",
-      "require": "./dist/vue3-currency-input.umd.js"
+      "import": "./dist/vue3-numeric-input.es.js",
+      "require": "./dist/vue3-numeric-input.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/daicatam001/vue3-currency-input.git"
+    "url": "https://github.com/daicatam001/vue3-numeric-input.git"
   },
   "license": "MIT",
   "homepage": "",
@@ -40,13 +40,13 @@
     "vue",
     "vuejs",
     "vue3",
-    "currency",
+    "numeric",
     "money",
     "number",
     "format",
     "input"
   ],
   "bugs": {
-    "url": "https://github.com/daicatam001/vue3-currency-input/issues"
+    "url": "https://github.com/daicatam001/vue3-numeric-input/issues"
   }
 }
