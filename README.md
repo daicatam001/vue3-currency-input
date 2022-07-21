@@ -1,10 +1,10 @@
 
 # vue3-numeric-input
 
-A simple Vue 3 directive that helps show number of input in numeric format
+A simple Vue 3 directive that helps value of input in numeric format
 
 ### Note
-Currently directive only works with integer number. Supporting float number is comming soon.
+Currently directive only works with integer numbers. Supporting float numbers is comming soon.
 ## Demo
 
 Comming soon.
@@ -53,14 +53,23 @@ Use component in template
     <div>
         <input type="text"
             v-numeric-input
+            ref="numericInput"
             @number-change="onNumberChange">
     </div>
 </template>
 
 <script setup lang="ts">
-    const onNumberChange = (event: CustomEvent)=>{
+    import {ref, onMounted} from 'vue'
+    const onNumberChange = (event)=>{
         const { number } = event.detail 
     }
+    const numericInput = ref(null)
+
+    // update value for input
+    onMounted(()=>{
+        numericInput.value.setNumberValue(2)
+    })
+
 </script>
 
 ```
@@ -81,3 +90,8 @@ Use component in template
 | ---- | ----------- |
 | @number-change | Emitted number value of input throughout `CustomEvent`: `event.detail.number` |
 
+### custom function for input
+
+| Name | Description |
+| ---- | ----------- |
+| setNumberValue | set value for input that will be display in numeric format |
