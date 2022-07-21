@@ -35,7 +35,7 @@ app.directive('numeric-input', NumericInput)
 app.mount('#app')
 ```
 
-...Or import vue3-typeahead-input component locally in component you want. 
+...Or import vue3-typeahead-input directive locally in component you want. 
 
 ```ts
 import NumericInput from 'vue3-numeric-input';
