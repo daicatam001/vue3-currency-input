@@ -25,7 +25,11 @@ onMounted(() => {
                 <code class="javascript">
     &lt;template&gt;
         &lt;input 
-            v-numeric-input
+            v-numeric-input=&quot;{
+                thousands: &#39;,&#39;,
+                align: &#39;right&#39;,
+                nullable: true
+            }&quot;
             ref=&quot;inputNumber&quot;
             @number-change=&quot;onNumberChange&quot;&gt;
         &lt;button @click=&quot;genRandomValue&quot;&gt;Change value&lt;/button&gt;
@@ -55,7 +59,12 @@ onMounted(() => {
         </div>
         <div class="col-data">
             <div>
-                <input v-numeric-input
+                <input 
+                    v-numeric-input="{
+                        thousands: ',',
+                        align: 'right',
+                        nullable: true
+                    }"
                     ref="inputNumber"
                     @number-change="onNumberChange">
                 <button @click="genRandomValue">Change value</button>

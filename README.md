@@ -48,7 +48,11 @@ Usage example
 ```html
 <template>
     <input
-        v-numeric-input
+        v-numeric-input="{
+            thousands: ',',
+            align: 'right',
+            nullable: true
+        }"
         ref="inputNumber"
         @number-change="onNumberChange" />
     <button @click="changeModel">Change value</button>
@@ -100,7 +104,7 @@ onMounted(() => {
 | ---- | ----------- |
 | @number-change | Emitted number value of input throughout `CustomEvent`: `event.detail.number` |
 
-### custom function for input
+## Custom function for input
 
 | Name | Description |
 | ---- | ----------- |
