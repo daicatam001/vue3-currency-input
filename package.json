@@ -1,6 +1,6 @@
 {
   "name": "vue3-numeric-input",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "files": [
     "dist"
   ],
@@ -20,7 +20,8 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue3-highlightjs": "^1.0.5"
   },
   "devDependencies": {
     "@types/node": "^18.0.6",
@@ -41,6 +42,7 @@
     "vuejs",
     "vue3",
     "numeric",
+    "currency",
     "money",
     "number",
     "format",

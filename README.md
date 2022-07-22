@@ -6,10 +6,7 @@ A simple Vue 3 directive that helps value of input in numeric format
 ### Note
 Currently directive only works with integer numbers. Supporting float numbers is comming soon.
 ## Demo
-
-Comming soon.
-  <!-- - [Example page](https://vue3-typeahdead-input.vercel.app/) -->
-
+  - [Example page](https://vue3-numeric-input.vercel.app/)
 
 ## Installation
 
@@ -47,29 +44,42 @@ export default {
     }
 }
 ```
-Use component in template
+Usage example
 ```html
 <template>
-    <div>
-        <input type="text"
-            v-numeric-input
-            ref="numericInput"
-            @number-change="onNumberChange">
-    </div>
+    <input
+        v-numeric-input
+        ref="inputNumber"
+        @number-change="onNumberChange" />
+    <button @click="changeModel">Change value</button>
 </template>
 
 <script setup lang="ts">
-    import {ref, onMounted} from 'vue'
-    const onNumberChange = (event)=>{
-        const { number } = event.detail 
-    }
-    const numericInput = ref(null)
+import { ref, onMounted } from 'vue'
+import type { NumericInputChangeEvent, NumericInputElement } from 'vue3-numeric-input';
 
-    // update value for input
-    onMounted(()=>{
-        numericInput.value.setNumberValue(2)
-    })
+const model = ref(1234) // input model
+const inputNumber = ref<NumericInputElement | null>(null) // input ref
 
+// update model when user interact input
+const onNumberChange = (event: NumericInputChangeEvent) => {
+    const { number } = event.detail
+    model.value = number
+}
+
+// update input when model change
+const changeModel = () => {
+    /*
+    TODO: update model value
+    */
+
+    inputNumber.value!.setNumberValue(model.value)
+}
+
+// init input with model value
+onMounted(() => {
+    inputNumber.value!.setNumberValue(model.value)
+})
 </script>
 
 ```
