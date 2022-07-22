@@ -80,7 +80,7 @@ Use component in template
 |---|---|---|---|
 | align | String | Text alignment in input (left \| right) | right |
 | thousands | string | Separator of thousands | , |
-| nullable | boolean | when true, the value of the clean field will be `null`, when false the value will be `0` | false |
+| nullable | boolean | when true, the value of the clean field will be `null`, when false the value will be `0` | true |
 
 
 
